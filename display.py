@@ -3,132 +3,149 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-
-QApplication.setStyle("Motif")
-app = QApplication(sys.argv) 
-window = QWidget()
-window.setFixedSize(1366, 800)
-window.setWindowTitle("Hello World")
-window.show()
-# Create some widgets
-nameLabel = QLabel("Dex-Net Demo")
-#nameLabel.setAlignment(QtCore.Qt.AlignCenter)
-leftBar = QProgressBar()
-leftBar.setOrientation(QtCore.Qt.Vertical)
-style ="""
-        QProgressBar {
-            border: 5px solid grey;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        QProgressBar::chunk {
-            width: 100 px;
-        }"""
-leftBar.setStyleSheet(style)
-leftBar.setMaximum(0)
-leftBar.setMaximum(10)
-leftBar.setValue(5)
-leftBar.setFixedHeight(400)
-
-rightBar = QProgressBar()
-rightBar.setOrientation(QtCore.Qt.Vertical)
-rightBar.setStyleSheet(style)
-rightBar.setMaximum(10)
-rightBar.setValue(3)
-rightBar.setFixedHeight(400)
+class dexnetDisplay(QMainWindow):
 
 
-picksPerHour = QLCDNumber(2)
-picksPerHour.display(34)
-picksPerHour.setSegmentStyle(QtGui.QLCDNumber.Flat)
-# QLCDColoring = """{
-#    background-color:rgb(0, 170, 255);
-#    }"""
-# picksPerHour.setStyleSheet(QLCDColoring)
-palette = picksPerHour.palette()
-picksPerHour.setFixedSize(100, 100)
-
-# foreground color
-palette.setColor(palette.WindowText, QtGui.QColor(19, 19, 63))
-# background color
-palette.setColor(palette.Background, QtGui.QColor(0, 0, 0))
-# "light" border
-palette.setColor(palette.Light, QtGui.QColor(255, 199, 0))
-# "dark" border
-palette.setColor(palette.Dark, QtGui.QColor(255, 199, 0))
-
-# set the palette
-picksPerHour.setPalette(palette)
-labelPicks = QLabel("PICKS PER HOUR")
-
-weightDisplay = QLCDNumber(5)
-weightDisplay.display(25.67)
-weightDisplay.setSegmentStyle(QtGui.QLCDNumber.Flat)
-weightDisplay.setFixedSize(100, 75)
-#weightDisplay.setStyleSheet(QLCDColoring)
-weightDisplay.setPalette(palette)
-
-labelWeight = QLabel("GRAMS")
-
-confidenceDisplay = QLCDNumber(4)
-confidenceDisplay.display(85.2)
-confidenceDisplay.setPalette(palette)
-confidenceDisplay.setSegmentStyle(QtGui.QLCDNumber.Flat)
-confidenceDisplay.setFixedSize(120, 100)
-
-labelConfidence = QLabel("% CONFIDENCE")
+	def __init__(self):
+		super(dexnetDisplay, self).__init__()
+		self.initUI()
 
 
 
-header = QLabel()
-header.setPixmap(QPixmap(os.getcwd() + "/header.png"))
+	def initUI(self):
+		#window.setFixedSize(960, 540)
+		central_widget = QWidget()
+		# Create some widgets
+		nameLabel = QLabel("Dex-Net Demo")
+		font = QFont("Helvetica Neue", 60, QFont.Bold)
+		smallFont = QFont("Helvetica Neue", 20, QFont.Bold)
+		#nameLabel.setAlignment(QtCore.Qt.AlignCenter)
+		leftBar = QProgressBar()
+		leftBar.setOrientation(QtCore.Qt.Vertical)
+		style ="""
+		        QProgressBar {
+		            border: 5px solid #000033;
+		            border-radius: 7px;
+		        }
+		        QProgressBar::chunk {
+		        	background-color: #ffcc00;
+		        }"""
+		leftBar.setStyleSheet(style)
+		leftBar.setMaximum(0)
+		leftBar.setMaximum(10)
+		leftBar.setValue(5)
+		leftBar.setTextVisible(False)
+		#leftBar.setFixedHeight(400)
 
-image = QLabel()
-image.setPixmap(QPixmap(os.getcwd() + "/camera.png"))
-
-icons = QLabel()
-icons.setPixmap(QPixmap(os.getcwd() + "/icons.png"))
-
-button = QPushButton("hi");
-button.setText("Planning");
-button.setFixedHeight(80);
-button.setFixedWidth(80);
-#Set Starting point of region 5 pixels inside , make region width & height
-#values same and less than button size so that we obtain a pure-round shape
-region = QRegion((QRect(button.x()+5,button.y()+5,80,80)),QRegion.Ellipse)
-button.setMask(region);
-
-
-button1 = QLabel()
-button1.setPixmap(QPixmap(os.getcwd() + "/suction.png"))
-button1.setFixedHeight(100)
-
-# Put the widgets in a layout:
-layout = QGridLayout(window)
-# layout.setColumnStretch(0, 1)
-# layout.setColumnStretch(1, 1)
-# layout.setColumnStretch(2, 1)
-# layout.setRowStretch(0, 1)
-# layout.setRowStretch(1, 1)
-# layout.setRowStretch(2, 1)
-# layout.setRowStretch(3, 1)
-# layout.setRowStretch(4, 1)
+		rightBar = QProgressBar()
+		rightBar.setOrientation(QtCore.Qt.Vertical)
+		rightBar.setStyleSheet(style)
+		rightBar.setMaximum(10)
+		rightBar.setValue(3)
+		rightBar.setTextVisible(False)
 
 
-layout.addWidget(leftBar, 2, 0, Qt.AlignCenter)
-layout.addWidget(rightBar, 2, 2, Qt.AlignCenter)
-layout.addWidget(picksPerHour, 0, 0, Qt.AlignCenter)
-layout.addWidget(labelPicks, 1, 0, Qt.AlignCenter)
-layout.addWidget(header, 0, 1, Qt.AlignCenter)
-layout.addWidget(image, 2, 1, Qt.AlignCenter)
-layout.addWidget(icons, 3, 1, Qt.AlignCenter)
-layout.addWidget(weightDisplay, 3, 0, Qt.AlignCenter)
-layout.addWidget(labelWeight, 4, 0, Qt.AlignCenter)
-layout.addWidget(confidenceDisplay, 0, 2, Qt.AlignCenter)
-layout.addWidget(labelConfidence, 1, 2, Qt.AlignCenter)
-layout.addWidget(button, 4, 1)
-layout.addWidget(button1, 4, 2)
-rowLabel = layout.rowCount()
-print(rowLabel)
-sys.exit(app.exec_())
+		pickBox = QVBoxLayout()
+		backPick = QWidget()
+		picksPerHour = QLabel("34")
+		picksPerHour.setFont(font)
+		picksPerHour.setStyleSheet("border: 1px solid #000033; background-color: #000033; color: white")
+		labelPicks = QLabel("PICKS PER HOUR")
+		labelPicks.setStyleSheet("color: white")
+		labelPicks.setFont(smallFont)
+		picksPerHour.setAlignment(Qt.AlignHCenter)
+		labelPicks.setAlignment(Qt.AlignHCenter)
+		backPick.setStyleSheet("border: 1px solid #000033; border-radius: 7px; background-color: #000033;")
+		pickBox.addWidget(picksPerHour)
+		pickBox.addWidget(labelPicks)
+		backPick.setLayout(pickBox)
+
+
+
+		weightBox = QVBoxLayout()
+		backWeight = QWidget()
+		weightDisplay = QLabel("25.67")
+		weightDisplay.setFont(font)
+		weightDisplay.setStyleSheet("border: 1px solid #000033; background-color: #000033; color: white")
+		labelWeight = QLabel("GRAMS")
+		labelWeight.setStyleSheet("color: white")
+		labelWeight.setFont(smallFont)
+		weightDisplay.setAlignment(Qt.AlignHCenter)
+		labelWeight.setAlignment(Qt.AlignHCenter)
+		backWeight.setStyleSheet("border: 1px solid #000033; border-radius: 7px; background-color: #000033;")
+		weightBox.addWidget(weightDisplay)
+		weightBox.addWidget(labelWeight)
+		backWeight.setLayout(weightBox)
+
+
+		confidenceBox = QVBoxLayout()
+		backConfidence = QWidget()
+		confidenceDisplay = QLabel("85.2")
+		confidenceDisplay.setFont(font)
+		confidenceDisplay.setStyleSheet("border: 1px solid #000033; background-color: #000033; color: white")
+		labelConfidence = QLabel("% CONFIDENCE")
+		labelConfidence.setStyleSheet("color: white")
+		labelConfidence.setFont(smallFont)
+		confidenceDisplay.setAlignment(Qt.AlignHCenter)
+		labelConfidence.setAlignment(Qt.AlignHCenter)
+		backConfidence.setStyleSheet("border: 1px solid #000033; border-radius: 7px; background-color: #000033;")
+		confidenceBox.addWidget(confidenceDisplay)
+		confidenceBox.addWidget(labelConfidence)
+		backConfidence.setLayout(confidenceBox)
+
+
+
+
+		header = QLabel()
+		header.setPixmap(QPixmap(os.getcwd() + "/header.png"))
+		header.setScaledContents(True)
+
+		image = QLabel()
+		image.setPixmap(QPixmap(os.getcwd() + "/camera1.png"))
+		image.setScaledContents(True)
+
+		icons = QLabel()
+		icons.setPixmap(QPixmap(os.getcwd() + "/icons.png"))
+
+
+
+		sensing = QLabel()
+		sensing.setPixmap(QPixmap(os.getcwd() + "/sensing.png"))
+
+		pause = QLabel()
+		pause.setPixmap(QPixmap(os.getcwd() + "/pause_plain.png"))
+
+		error = QLabel()
+		error.setPixmap(QPixmap(os.getcwd() + "/error_off.png"))
+
+		top_layout = QGridLayout()
+
+
+		top_layout.addWidget(leftBar, 1, 0, Qt.AlignHCenter)
+		top_layout.addWidget(rightBar, 1, 2, Qt.AlignHCenter)
+		top_layout.addWidget(backPick, 0, 0)
+		top_layout.addWidget(backWeight, 2, 0)
+		top_layout.addWidget(backConfidence, 0, 2)
+		top_layout.addWidget(header, 0, 1, Qt.AlignCenter)
+		top_layout.addWidget(image, 1, 1, Qt.AlignCenter)
+		top_layout.addWidget(icons, 2, 1, Qt.AlignCenter)
+		top_layout.addWidget(sensing, 3, 1, Qt.AlignCenter)
+		top_layout.addWidget(pause, 3, 0, Qt.AlignCenter)
+		top_layout.addWidget(error, 3, 2, Qt.AlignCenter)
+
+		central_widget.setLayout(top_layout)
+		self.setCentralWidget(central_widget)
+		self.setFixedSize(1440, 810)
+		self.show()
+
+
+if __name__ == "__main__":
+	QApplication.setStyle("Motif")
+	app = QApplication(sys.argv) 
+	app.setStyleSheet('QMainWindow{background-color: white}')
+	ex = dexnetDisplay()
+	sys.exit(app.exec_())
+
+
+
+
