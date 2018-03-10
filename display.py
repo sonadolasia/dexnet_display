@@ -117,8 +117,6 @@ class dexnetDisplay(QMainWindow):
 		backSuccess.setLayout(successBox)
 
 
-
-
 		header = QLabel()
 		header.setPixmap(QPixmap(os.getcwd() + "/header.png"))
 		header.setScaledContents(True)
